@@ -39,7 +39,7 @@ function App() {
     if (!fetching && !stanford && !cornell) {
       setFetching(true);
 
-      Promise.all([fetchStanford, fetchCornell]).then((results) => {
+      Promise.all([fetchStanford(), fetchCornell()]).then((results) => {
         console.log("results in useEffect", results);
         setFetching(false);
         setStanford(results[0]);
@@ -48,8 +48,10 @@ function App() {
     }
   }, [fetching, setFetching, setStanford, setCornell]);
 
-  console.log("stanford:", stanford);
-  console.log("cornell", cornell);
+  const allData = [...stanford, ...cornell];
+
+  console.log("allData", allData);
+
   return (
     <div className="App">
       <h1>Degree Data</h1>
