@@ -1,30 +1,34 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import "./App.css";
 
 function App() {
   //setting state
-  const [degreeList, setDegreeList] = useState([]);
+  const [stanford, setStanford] = useState(null);
+  const [cornell, setCornell] = useState(null);
+  const [fetching, setFetching] = useState(false);
 
-  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const stanfordUrl = "https://registree-coding-challenge.glitch.me/stanford";
-  const cornellUrl = "https://registree-coding-challenge.glitch.me/cornell";
+  // const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+  const stanfordUrl =
+    "https://cors-anywhere.herokuapp.com/https://registree-coding-challenge.glitch.me/stanford";
+  const cornellUrl =
+    "https://cors-anywhere.herokuapp.com/https://registree-coding-challenge.glitch.me/cornell";
 
-  let responseData = [];
+  const fetchStanford = () => fetch(stanfordUrl).then((r) => r.json());
+  const fetchCornell = () => fetch(cornellUrl).then((r) => r.json());
 
-  fetch(proxyUrl + stanfordUrl)
-    .then((r) => {
-      const contentType = r.headers["Content-Type"];
-      if (contentType === "application/json") {
-        return r.json();
-      } else {
-        return r.text();
-      }
-    })
-    .then((data) => (responseData = data));
-  // .then(() => console.log("responseData", responseData));
+  useEffect(() => {
+    if (!fetching && !stanford && !cornell) {
+      setFetching(true);
 
-  console.log("response data:", responseData);
+      Promise.all([fetchStanford, fetchCornell]).then((results) => {
+        console.log("results in useEffect", results);
+        setFetching(false);
+        setStanford(results[0]);
+        setCornell(results[1]);
+      });
+    }
+  }, [fetching, setFetching, setStanford, setCornell]);
 
   return (
     <div className="App">
