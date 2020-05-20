@@ -28,7 +28,6 @@ function App() {
       setFetching(true);
 
       Promise.all([fetchStanford(), fetchCornell()]).then((results) => {
-        console.log("results in useEffect", results);
         setFetching(false);
         setStanford(results[0]);
         setCornell(results[1]);
@@ -46,8 +45,6 @@ function App() {
   if (typeof cornell === "object" && cornell) {
     allData = [...allData, ...cornell];
   }
-
-  console.log("allData:", allData);
 
   // sort the data
   const compare = (a, b) => {
