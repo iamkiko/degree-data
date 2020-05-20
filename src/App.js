@@ -48,13 +48,19 @@ function App() {
     }
   }, [fetching, setFetching, setStanford, setCornell]);
 
-  const allData = [...stanford, ...cornell];
-
+  const allData = stanford?.concat(cornell);
   console.log("allData", allData);
+  console.log(typeof allData);
 
   return (
     <div className="App">
       <h1>Degree Data</h1>
+      {allData &&
+        allData.map((degree) => (
+          <span>
+            {degree.name} - {degree.level} - {degree.duration} - {degree.code}
+          </span>
+        ))}
     </div>
   );
 }
