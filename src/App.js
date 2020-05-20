@@ -8,14 +8,32 @@ function App() {
   const [cornell, setCornell] = useState(null);
   const [fetching, setFetching] = useState(false);
 
-  // const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const stanfordUrl =
-    "https://cors-anywhere.herokuapp.com/https://registree-coding-challenge.glitch.me/stanford";
-  const cornellUrl =
-    "https://cors-anywhere.herokuapp.com/https://registree-coding-challenge.glitch.me/cornell";
+  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+  const stanfordUrl = "https://registree-coding-challenge.glitch.me/stanford";
+  const cornellUrl = "https://registree-coding-challenge.glitch.me/cornell";
 
-  const fetchStanford = () => fetch(stanfordUrl).then((r) => r.json());
-  const fetchCornell = () => fetch(cornellUrl).then((r) => r.json());
+  // const fetchStanford = () => fetch(stanfordUrl).then((r) => r.json());
+  // const fetchCornell = () => fetch(cornellUrl).then((r) => r.json());
+
+  const fetchStanford = () =>
+    fetch(proxyUrl + stanfordUrl).then((r) => {
+      const contentType = r.headers["Content-Type"];
+      if (contentType === "application/json") {
+        return r.json();
+      } else {
+        return r.text();
+      }
+    });
+
+  const fetchCornell = () =>
+    fetch(proxyUrl + cornellUrl).then((r) => {
+      const contentType = r.headers["Content-Type"];
+      if (contentType === "application/json") {
+        return r.json();
+      } else {
+        return r.text();
+      }
+    });
 
   useEffect(() => {
     if (!fetching && !stanford && !cornell) {
