@@ -7,6 +7,7 @@ function App() {
   const [cornell, setCornell] = useState(null);
   const [fetching, setFetching] = useState(false);
 
+  //fetch calls
   const fetchStanford = () =>
     fetch("/stanford")
       .then((r) => {
@@ -21,6 +22,7 @@ function App() {
       })
       .catch((e) => console.error(e));
 
+  //useEffect to render correct info when anything changes
   useEffect(() => {
     if (!fetching && !stanford && !cornell) {
       setFetching(true);
@@ -34,6 +36,7 @@ function App() {
     }
   }, [fetching, setFetching, setStanford, setCornell, stanford, cornell]);
 
+  //declare array to push both API returns in to
   let allData = [];
 
   if (typeof stanford === "object" && stanford) {
@@ -44,14 +47,32 @@ function App() {
     allData = [...allData, ...cornell];
   }
 
+  console.log("allData:", allData);
+
+  // sort the data
+  const compare = (a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+
+    let comparison = 0;
+
+    if (nameA > nameB) {
+      comparison = -1;
+    } else if (nameA < nameB) {
+      comparison = 1;
+    }
+    return comparison * -1;
+  };
+  const sortedData = allData.sort(compare);
+
   return (
     <div className="App">
       <h1>Degree Data</h1>
-      {allData &&
-        allData.map((degree) => (
-          <span>
+      {sortedData &&
+        sortedData.map((degree) => (
+          <div>
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
-          </span>
+          </div>
         ))}
     </div>
   );
