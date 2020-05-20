@@ -8,7 +8,7 @@ function App() {
   const [cornell, setCornell] = useState(null);
   const [fetching, setFetching] = useState(false);
 
-  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+  // const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const stanfordUrl = "https://registree-coding-challenge.glitch.me/stanford";
   const cornellUrl = "https://registree-coding-challenge.glitch.me/cornell";
 
@@ -16,7 +16,7 @@ function App() {
   // const fetchCornell = () => fetch(cornellUrl).then((r) => r.json());
 
   const fetchStanford = () =>
-    fetch(proxyUrl + stanfordUrl).then((r) => {
+    fetch("/stanford").then((r) => {
       const contentType = r.headers["Content-Type"];
       if (contentType === "application/json") {
         return r.json();
@@ -26,7 +26,7 @@ function App() {
     });
 
   const fetchCornell = () =>
-    fetch(proxyUrl + cornellUrl).then((r) => {
+    fetch("/cornell").then((r) => {
       const contentType = r.headers["Content-Type"];
       if (contentType === "application/json") {
         return r.json();
@@ -48,6 +48,8 @@ function App() {
     }
   }, [fetching, setFetching, setStanford, setCornell]);
 
+  console.log("stanford:", stanford);
+  console.log("cornell", cornell);
   return (
     <div className="App">
       <h1>Degree Data</h1>
