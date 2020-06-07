@@ -1,9 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Button, CircularProgress, Checkbox } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import Search from "./components/Search";
 
 function App() {
+  const useStyles = makeStyles({
+    table: {
+      minWidth: 650,
+    },
+  });
+
+  const classes = useStyles();
+
   //setting state
   const [stanford, setStanford] = useState(null);
   const [cornell, setCornell] = useState(null);
@@ -127,17 +147,38 @@ ${selected}
           </Button>
         </>
       )}
-      {sortedData &&
-        filteredDegrees.map((degree) => (
-          <div key={degree.code + degree.school}>
-            <Checkbox
-              onChange={handleChecked}
-              value={` Code: ${degree.code} - ${degree.school}`}
-            />
-            {degree.name} - {degree.level} - {degree.duration} - {degree.code} -{" "}
-            {degree.school}
-          </div>
-        ))}
+      <TableContainer component={Paper}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Select</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Level</TableCell>
+              <TableCell align="right">Duration</TableCell>
+              <TableCell align="right">Code</TableCell>
+              <TableCell align="right">University</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedData &&
+              filteredDegrees.map((degree) => (
+                <TableRow key={degree.code + degree.school}>
+                  <TableCell>
+                    <Checkbox
+                      onChange={handleChecked}
+                      value={` Code: ${degree.code} - ${degree.school}`}
+                    />
+                  </TableCell>
+                  <TableCell>{degree.name}</TableCell>
+                  <TableCell align="right">{degree.level}</TableCell>
+                  <TableCell align="right">{degree.duration} </TableCell>
+                  <TableCell align="right">{degree.code}</TableCell>
+                  <TableCell align="right"> {degree.school}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }
