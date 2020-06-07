@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { CircularProgress } from "@material-ui/core";
 import "./App.css";
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
   const [stanford, setStanford] = useState(null);
   const [cornell, setCornell] = useState(null);
   const [fetching, setFetching] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   //fetch calls
   const fetchStanford = () =>
@@ -26,14 +28,25 @@ function App() {
   useEffect(() => {
     if (!fetching && !stanford && !cornell) {
       setFetching(true);
+      setLoading(true);
 
       Promise.all([fetchStanford(), fetchCornell()]).then((results) => {
         setFetching(false);
+        setLoading(false);
         setStanford(results[0]);
         setCornell(results[1]);
       });
     }
-  }, [fetching, setFetching, setStanford, setCornell, stanford, cornell]);
+  }, [
+    loading,
+    setLoading,
+    fetching,
+    setFetching,
+    setStanford,
+    setCornell,
+    stanford,
+    cornell,
+  ]);
 
   //declare array to push both API returns in to
   let allData = [];
@@ -60,11 +73,27 @@ function App() {
     }
     return comparison * -1;
   };
+
+  // Sorted data array for iterating and displaying
   const sortedData = allData.sort(compare);
 
   return (
     <div className="App">
       <h1>Degree Data</h1>
+      {loading ? (
+        <div>
+          Our minions have set off to find the information you are after! Please
+          be patient...
+          <br />
+          <br />
+          <br />
+          <CircularProgress color="secondary" />
+          <br />
+          <br />
+        </div>
+      ) : (
+        <h3>Please select the relevant degrees to be output to the console</h3>
+      )}
       {sortedData &&
         sortedData.map((degree) => (
           <div>
