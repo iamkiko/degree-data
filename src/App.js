@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Checkbox } from "@material-ui/core";
 import "./App.css";
 import Search from "./components/Search";
 
@@ -117,6 +117,7 @@ function App() {
       {sortedData &&
         filteredDegrees.map((degree) => (
           <div key={degree.code + degree.school}>
+            <Checkbox />
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
           </div>
         ))}
