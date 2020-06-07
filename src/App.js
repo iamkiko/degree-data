@@ -10,6 +10,7 @@ function App() {
   const [fetching, setFetching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState([]);
 
   //fetch calls
   const fetchStanford = () =>
@@ -92,6 +93,10 @@ function App() {
     degree.name.toLowerCase().includes(query.toLowerCase())
   );
 
+  onst handleChecked = (event) => {
+    setSelected([[...selected, event.target.value]]);
+  };
+
   return (
     <div className="App">
       <h1>Degree Data</h1>
@@ -117,7 +122,7 @@ function App() {
       {sortedData &&
         filteredDegrees.map((degree) => (
           <div key={degree.code + degree.school}>
-            <Checkbox />
+            <Checkbox onChange={handleChecked}/>
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
           </div>
         ))}
