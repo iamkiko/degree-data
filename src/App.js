@@ -97,6 +97,11 @@ function App() {
     setSelected([[...selected, event.target.value]]);
   };
 
+  const showResults = () =>
+    console.table(`You have selected: 
+${selected} 
+`);
+
   return (
     <div className="App">
       <h1>Degree Data</h1>
@@ -117,12 +122,8 @@ function App() {
           <h3>
             Please select the relevant degrees to be output to the console.
           </h3>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={console.log("button clicked")}
-          >
-            Log Selected Degrees
+          <Button variant="contained" color="primary" onClick={showResults}>
+            Log selected degrees to the console
           </Button>
         </>
       )}
@@ -131,9 +132,10 @@ function App() {
           <div key={degree.code + degree.school}>
             <Checkbox
               onChange={handleChecked}
-              value={` Code: ${degree.code} - University: ${degree.school}`}
+              value={` Code: ${degree.code} - ${degree.school}`}
             />
-            {degree.name} - {degree.level} - {degree.duration} - {degree.code}
+            {degree.name} - {degree.level} - {degree.duration} - {degree.code} -{" "}
+            {degree.school}
           </div>
         ))}
     </div>
