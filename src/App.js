@@ -93,7 +93,7 @@ function App() {
     degree.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  onst handleChecked = (event) => {
+  const handleChecked = (event) => {
     setSelected([[...selected, event.target.value]]);
   };
 
@@ -122,7 +122,7 @@ function App() {
       {sortedData &&
         filteredDegrees.map((degree) => (
           <div key={degree.code + degree.school}>
-            <Checkbox onChange={handleChecked}/>
+            <Checkbox onChange={handleChecked} />
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
           </div>
         ))}
