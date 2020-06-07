@@ -116,7 +116,7 @@ function App() {
       )}
       {sortedData &&
         filteredDegrees.map((degree) => (
-          <div>
+          <div key={degree.code + degree.school}>
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
           </div>
         ))}
