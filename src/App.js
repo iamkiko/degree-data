@@ -122,7 +122,10 @@ function App() {
       {sortedData &&
         filteredDegrees.map((degree) => (
           <div key={degree.code + degree.school}>
-            <Checkbox onChange={handleChecked} />
+            <Checkbox
+              onChange={handleChecked}
+              value={` Code: ${degree.code} - University: ${degree.school}`}
+            />
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
           </div>
         ))}
