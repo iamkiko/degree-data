@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { CircularProgress } from "@material-ui/core";
 import "./App.css";
+import Search from "./components/Search";
 
 function App() {
   //setting state
   const [stanford, setStanford] = useState(null);
   const [cornell, setCornell] = useState(null);
   const [fetching, setFetching] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   //fetch calls
   const fetchStanford = () =>
@@ -16,7 +18,6 @@ function App() {
         return r.json();
       })
       .catch((e) => console.error(e));
-
   const fetchCornell = () =>
     fetch("/cornell")
       .then((r) => {
@@ -28,18 +29,18 @@ function App() {
   useEffect(() => {
     if (!fetching && !stanford && !cornell) {
       setFetching(true);
-      setLoading(true);
+      setIsLoading(true);
 
       Promise.all([fetchStanford(), fetchCornell()]).then((results) => {
         setFetching(false);
-        setLoading(false);
+        setIsLoading(false);
         setStanford(results[0]);
         setCornell(results[1]);
       });
     }
   }, [
-    loading,
-    setLoading,
+    isLoading,
+    setIsLoading,
     fetching,
     setFetching,
     setStanford,
@@ -77,10 +78,20 @@ function App() {
   // Sorted data array for iterating and displaying
   const sortedData = allData.sort(compare);
 
+  // Handler function for search query for specific degree
+  const handleSearch = (event) => {
+    setQuery(event.target.value);
+  };
+
+  //filter/search function
+  const filteredDegrees = allData.filter((degree) =>
+    degree.name.toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
     <div className="App">
       <h1>Degree Data</h1>
-      {loading ? (
+      {isLoading ? (
         <div>
           Our minions have set off to find the information you are after! Please
           be patient...
@@ -92,10 +103,15 @@ function App() {
           <br />
         </div>
       ) : (
-        <h3>Please select the relevant degrees to be output to the console</h3>
+        <>
+          <Search handleSearch={handleSearch} query={query} />
+          <h3>
+            Please select the relevant degrees to be output to the console.
+          </h3>
+        </>
       )}
       {sortedData &&
-        sortedData.map((degree) => (
+        filteredDegrees.map((degree) => (
           <div>
             {degree.name} - {degree.level} - {degree.duration} - {degree.code}
           </div>
@@ -103,5 +119,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
