@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircularProgress, Checkbox } from "@material-ui/core";
+import { Button, CircularProgress, Checkbox } from "@material-ui/core";
 import "./App.css";
 import Search from "./components/Search";
 
@@ -117,6 +117,13 @@ function App() {
           <h3>
             Please select the relevant degrees to be output to the console.
           </h3>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={console.log("button clicked")}
+          >
+            Log Selected Degrees
+          </Button>
         </>
       )}
       {sortedData &&
