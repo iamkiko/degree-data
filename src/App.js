@@ -34,8 +34,12 @@ function App() {
       Promise.all([fetchStanford(), fetchCornell()]).then((results) => {
         setFetching(false);
         setIsLoading(false);
-        setStanford(results[0]);
-        setCornell(results[1]);
+        setStanford(
+          results[0]?.map((degree) => ({ ...degree, school: "Stanford" }))
+        );
+        setCornell(
+          results[1]?.map((degree) => ({ ...degree, school: "Cornell" }))
+        );
       });
     }
   }, [
