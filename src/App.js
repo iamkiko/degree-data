@@ -16,6 +16,7 @@ import "./App.css";
 import Search from "./components/Search";
 
 function App() {
+  //Styles for MUI
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
@@ -108,15 +109,17 @@ function App() {
     setQuery(event.target.value);
   };
 
-  //filter/search function
+  // Filter/search function
   const filteredDegrees = allData.filter((degree) =>
     degree.name.toLowerCase().includes(query.toLowerCase())
   );
 
+  // Function to keep track of checked values
   const handleChecked = (event) => {
     setSelected([[...selected, event.target.value]]);
   };
 
+  //Function to link to button and log selected degrees
   const showResults = () =>
     console.table(`You have selected: 
 ${selected} 
